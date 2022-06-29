@@ -91,9 +91,15 @@ public class Calculator implements ActionListener{
 
         // show selected numbers in text box
         for (int i = 0; i < 10; i++) {
+
             if (e.getSource() == numberButtons[i]) {
                 field.setText(field.getText().concat(String.valueOf(i)));
             }
+        }
+
+        // show decButton
+        if (e.getSource() == decButton) {
+            field.setText(field.getText().concat("."));
         }
 
         // clear text box

@@ -50,10 +50,10 @@ public class Calculator implements ActionListener{
         functionButtons[6] = delButton;
         functionButtons[7] = clrButton;
 
-        for (int i = 0; i < functionButtons.length-1; i++) {
-            functionButtons[i].addActionListener(this);
-            functionButtons[i].setFont(myFont);
-            functionButtons[i].setFocusable(false);
+        for (JButton functionButton : functionButtons) {
+            functionButton.addActionListener(this);
+            functionButton.setFont(myFont);
+            functionButton.setFocusable(false);
         }
 
         for (int i = 0; i < numberButtons.length; i++) {
@@ -74,23 +74,32 @@ public class Calculator implements ActionListener{
             panel.add(numberButton);
         }
 
-        for (JButton functionButton : functionButtons) {
-            panel.add(functionButton);
+        for (int i = 0; i < 6; i++) {
+            panel.add(functionButtons[i]);
         }
-
-        panel.remove(delButton);
-        panel.remove(clrButton);
 
         frame.add(panel);
         frame.add(delButton);
         frame.add(clrButton);
         frame.add(field);
         frame.setVisible(true);
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // show selected numbers in text box
+        for (int i = 0; i < 10; i++) {
+            if (e.getSource() == numberButtons[i]) {
+                field.setText(field.getText().concat(String.valueOf(i)));
+            }
+        }
+
+        // clear text box
+        if (e.getSource() == clrButton) {
+            field.setText("");
+        }
     }
 
     public static void main(String[] args) {

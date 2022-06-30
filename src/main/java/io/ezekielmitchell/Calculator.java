@@ -1,11 +1,17 @@
+/**
+ * @author Ezekiel A. Mitchell
+ * @project Simple Calculator
+ * @date 20220630
+ *
+ * This program generates a simple calculator to preform simple calculations. The purpose of this program is for me to
+ * gain a better understanding of java swing
+ */
+
 package io.ezekielmitchell;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
-
-import static java.lang.Thread.sleep;
 
 public class Calculator implements ActionListener{
 
@@ -18,6 +24,7 @@ public class Calculator implements ActionListener{
     JPanel panel;
 
     Font myFont = new Font("Courier", Font.PLAIN, 12);
+
 
     double num1=0, num2=0, result=0;
     char operator;
@@ -91,10 +98,6 @@ public class Calculator implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        ArrayList<Integer> inputs = new ArrayList<>();
-
-        int oldNumber = 0, newNumber = 0;
-
         // show selected numbers in text box
         for (int i = 0; i < 10; i++) {
             if (e.getSource() == numberButtons[i]) {
@@ -102,7 +105,14 @@ public class Calculator implements ActionListener{
             }
         }
 
-        if (e.getSource().equals(decButton)) {
+        // TODO: 6/30/22 if decimal is clicked multiple times -> setText("Error")
+        if (field.getText().contains(".") && e.getSource() == decButton) {
+            field.setText("Error: cannot use decimal more than once");
+            ActionListener errorHider = evt -> field.setText("");
+            Timer t = new Timer(1000, errorHider);
+            t.setRepeats(false);
+            t.start();
+        } else if  (e.getSource().equals(decButton)) {
             field.setText(field.getText().concat("."));
         }
 
@@ -132,19 +142,11 @@ public class Calculator implements ActionListener{
 
         if (e.getSource().equals(equButton)) {
             num2 = Double.parseDouble(field.getText());
-            switch(operator) {
-                case'+':
-                    result = num1 + num2;
-                    break;
-                case'-':
-                    result = num1 - num2;
-                    break;
-                case'/':
-                    result = num1 / num2;
-                    break;
-                case '*':
-                    result = num1 * num2;
-                    break;
+            switch (operator) {
+                case '+' -> result = num1 + num2;
+                case '-' -> result = num1 - num2;
+                case '/' -> result = num1 / num2;
+                case '*' -> result = num1 * num2;
             }
             field.setText(String.valueOf(result));
         }
@@ -153,6 +155,13 @@ public class Calculator implements ActionListener{
             field.setText("");
         }
 
+        if (e.getSource().equals(delButton)) {
+            String string = field.getText();
+            field.setText("");
+            for (int i = 0; i < string.length()-1; i++) {
+                field.setText(field.getText() + string.charAt(i));
+            }
+        }
 
     }
 

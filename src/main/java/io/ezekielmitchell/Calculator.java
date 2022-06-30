@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+import static java.lang.Thread.sleep;
+
 public class Calculator implements ActionListener{
 
     JFrame frame;
@@ -89,23 +91,69 @@ public class Calculator implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        ArrayList<Integer> inputs = new ArrayList<>();
+
+        int oldNumber = 0, newNumber = 0;
+
         // show selected numbers in text box
         for (int i = 0; i < 10; i++) {
-
             if (e.getSource() == numberButtons[i]) {
                 field.setText(field.getText().concat(String.valueOf(i)));
             }
         }
 
-        // show decButton
-        if (e.getSource() == decButton) {
+        if (e.getSource().equals(decButton)) {
             field.setText(field.getText().concat("."));
         }
 
-        // clear text box
-        if (e.getSource() == clrButton) {
+        if (e.getSource().equals(addButton)) {
+            num1 = Double.parseDouble(field.getText());
+            operator = '+';
             field.setText("");
         }
+
+        if (e.getSource().equals(subButton)) {
+            num1 = Double.parseDouble(field.getText());
+            operator = '-';
+            field.setText("");
+        }
+
+        if (e.getSource().equals(mulButton)) {
+            num1 = Double.parseDouble(field.getText());
+            operator = '*';
+            field.setText("");
+        }
+
+        if (e.getSource().equals(divButton)) {
+            num1 = Double.parseDouble(field.getText());
+            operator = '/';
+            field.setText("");
+        }
+
+        if (e.getSource().equals(equButton)) {
+            num2 = Double.parseDouble(field.getText());
+            switch(operator) {
+                case'+':
+                    result = num1 + num2;
+                    break;
+                case'-':
+                    result = num1 - num2;
+                    break;
+                case'/':
+                    result = num1 / num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+            }
+            field.setText(String.valueOf(result));
+        }
+
+        if (e.getSource().equals(clrButton)) {
+            field.setText("");
+        }
+
+
     }
 
     public static void main(String[] args) {
